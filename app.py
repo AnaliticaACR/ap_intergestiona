@@ -1,10 +1,25 @@
 import streamlit as st
 import pandas as pd
+import requests
 
 @st.cache_data
 def cargar_datos():
-    return pd.read_parquet("https://raw.githubusercontent.com/williamCastro32/Coor_datos/main/app_datos/gestiones_interg-parquet")
+    try:
+        # URL raw del archivo en GitHub
+        url = "https://raw.githubusercontent.com/williamCastro32/Coor_datos/main/app_datos/gestiones_interg-parquet"
+        
+        # Descargar el contenido
+        response = requests.get(url)
+        response.raise_for_status()  # Lanzará un error si la descarga falla
+        
+        # Cargar desde bytes
+        return pd.read_parquet(io.BytesIO(response.content))
     
+    except Exception as e:
+        st.error(f"Error al cargar los datos: {e}")
+        return pd.DataFrame()  # Devuelve un DataFrame vacío en caso de error
+
+# Resto del código igual
 # 1. Título de la aplicación
 st.title("Búsqueda de Información por Cédula")
 
