@@ -1,2 +1,5 @@
 turorial-env/
 /turorial-env
+.env/
+env/
+
