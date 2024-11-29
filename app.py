@@ -4,9 +4,10 @@ import streamlit as st
 
 @st.cache_data
 def cargar_datos():
-    try:https://github.com/williamCastro32/app_intergestion/blob/main/app_datos/gestiones_interg-parquet
+    try:
+       
         # URL raw del archivo en GitHub
-        url = "https://raw.githubusercontent.com/williamCastro32/app_intergestion/main/app_datos/gestiones_interg-parquet"
+        url = "https://raw.githubusercontent.com/williamCastro32/app_intergestion/main/app_datos/gestiones_interg.parquet"
         
         # Descargar el contenido del archivo
         response = requests.get(url)
