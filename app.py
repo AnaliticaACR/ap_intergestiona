@@ -1,4 +1,3 @@
-import requests
 import pandas as pd
 import streamlit as st
 
@@ -8,17 +7,7 @@ def cargar_datos():
        
         # URL raw del archivo en GitHub
         url = "https://raw.githubusercontent.com/williamCastro32/app_intergestion/main/app_datos/gestiones_interg.parquet"
-        
-        # Descargar el contenido del archivo
-        response = requests.get(url)
-        response.raise_for_status()  # Lanzará un error si la descarga falla
-        
-        # Guardar el archivo temporalmente
-        with open("/tmp/gestiones_interg-parquet", "wb") as f:
-            f.write(response.content)
-        
-        # Cargar el archivo Parquet desde el archivo temporal
-        return pd.read_parquet("/tmp/gestiones_interg-parquet")
+        return pd.read_parquet(url)
     
     except Exception as e:
         st.error(f"Error al cargar los datos: {e}")
