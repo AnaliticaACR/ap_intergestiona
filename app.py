@@ -3,16 +3,13 @@ import pandas as pd
 from sqlalchemy import create_engine
 import pymysql # Necesario para que SQLAlchemy sepa cómo conectarse a MySQL
 
-# --- Constantes (reemplaza si es necesario) ---
+
 # El nombre de la tabla en tu base de datos MySQL
 MYSQL_TABLE_NAME = st.secrets["connections"]["mysql"].get("table_name", "gestiones_interg") # Usa el nombre de la tabla de secrets o por defecto
 
 # 1. Título de la aplicación
 st.title("Búsqueda de Información por Cédula")
 
-# ----------------------------------------------------------------------
-# Modificaciones para leer desde MySQL
-# ----------------------------------------------------------------------
 
 # @st.cache_resource para la conexión de la base de datos
 # Esto es importante porque los objetos de conexión no son directamente serializables
@@ -42,7 +39,6 @@ def get_db_connection():
 
 # @st.cache_data para cargar los datos
 # ttl=3600 (1 hora) significa que los datos se recargarán desde la BD como máximo cada hora.
-# Esto sincroniza con tu pipeline de actualización horaria.
 @st.cache_data(ttl=3600)
 def cargar_datos_desde_mysql():
     engine = get_db_connection()
@@ -51,7 +47,7 @@ def cargar_datos_desde_mysql():
     
     try:
         # Carga todos los datos de la tabla
-        # Asegúrate de que 'gestiones_interg' es el nombre correcto de tu tabla
+
         query = f"SELECT * FROM {MYSQL_TABLE_NAME}"
         df = pd.read_sql(query, engine)
         st.info(f"Datos cargados de MySQL. Filas: {len(df)}")
